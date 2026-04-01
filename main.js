@@ -294,3 +294,37 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.opacity = '1';
   });
 });
+
+// ── Download Resume PDF ────────────────────
+document.querySelectorAll('.resume-download-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (typeof html2pdf !== 'undefined') {
+      // Setup options for html2pdf
+      const opt = {
+        margin:       [0.5, 0.5],
+        filename:     'Adithya_Kuppusamy_Portfolio.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#0a0e27' },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+      };
+      
+      // Temporarily hide the particle canvas for cleaner PDF print
+      const bgCanvas = document.querySelector('canvas');
+      const originalDisplay = bgCanvas ? bgCanvas.style.display : '';
+      if (bgCanvas) bgCanvas.style.display = 'none';
+
+      // Ensure the button shows loading state
+      const originalText = btn.innerHTML;
+      btn.innerHTML = 'Downloading...';
+
+      html2pdf().set(opt).from(document.body).save().then(() => {
+        // Restore background and text
+        if (bgCanvas) bgCanvas.style.display = originalDisplay;
+        btn.innerHTML = originalText;
+      });
+    } else {
+      window.print();
+    }
+  });
+});
