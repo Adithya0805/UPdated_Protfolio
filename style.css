@@ -804,6 +804,12 @@ ul { list-style: none; }
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--cyan);
+  transition: all var(--transition);
+}
+.project-card:hover .metric-val {
+  color: var(--green);
+  transform: translateY(-2px);
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
 }
 .metric-label {
   font-size: .7rem;
